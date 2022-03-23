@@ -54,11 +54,29 @@ async def setup(ctx):
 	except Exception as errors:
 		await ctx.reply(f"> ❌ | Bot Error: {errors}", mention_author=False)
 
-@client.commands()
-async def ping(ctx):
-	em = discord.Embed(title="Latency Test", description=f"**Please Hold ... Working**", colour=discord.Colour.purple())
-	await ctx.reply(embed=em, mention_author = False)
-	before = time.monotonic()
-	em = discord.Embed(title="Ping", description=f"**")
 
+@client.command()
+async def ping(ctx):
+	before = time.monotonic()
+	em = discord.Embed(title="Latency Test", description=f"**Please Hold ... Working**", colour=discord.Colour.purple())
+	msg = await ctx.reply(embed=em, mention_author = False)
+	ping = (time.monotonic() - before) * 1000
+	em = discord.Embed(title="Ping", description=f"Latency: `{ping}ms`", colour=discord.Colour.purple())
+	await msg.edit(embed=em)
+
+@client.command()
+async def github(ctx):
+	dev = client.get_user(723569355710922802)
+	em = discord.Embed(title="Github Source Code", description=f"Find the source code for this bot, written by {dev.mention} at https://github.com/sam-march/Dark-Alley-Discord-Bot", colour=discord.Colour.purple())
+	await ctx.reply(embed=em, mention_author=False)
+@client.command()
+async def version(ctx):
+	em = discord.Embed(title="Versions", description="Python:\n`3.8.12`\n\ndiscord.py:\n`Development Version`" ,colour=discord.Colour.purple())
+	await ctx.reply(embed=em, mention_author=False)
+
+@client.command()
+async def dev(ctx):
+	dev = client.get_user(723569355710922802)
+	em = discord.Embed(title="About Developer", description=f"This bot was developed by {dev.mention}. If you wish to get in contact, do DM him", colour=discord.Colour.purple())
+	await ctx.reply(embed=em, mention_author=False)
 client.run(token)
