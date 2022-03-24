@@ -79,7 +79,13 @@ async def timestamp(ctx):
 @client.command()
 async def invite(ctx):
 	dev = client.get_user(723569355710922802)
-	em = discord.Embed(title="Invite Bot", description=f"Unfortunately", colour=discord.Colour.purple())
+	em = discord.Embed(title="Invite Bot", description=f"Unfortunately, you can't invite the bot, but if you want, DM {dev.mention}, as if he's free, he may make you a bot.", colour=discord.Colour.purple())
+	await ctx.reply(embed=em, mention_author=False)
+@client.command()
+async def rules(ctx):
+	dev = client.get_user(723569355710922802)
+	
+	em = discord.Embed(title="Server Rules", description=f"**Discord TOS & Community Guidelines:**\nhttps://discordapp.com/terms\nhttps://discordapp.com/guidelines\n\n**Server Rules:**\n\nBe nice or leave!\n1.1. No homophobia, personal attacks, offensive language, harassment, witch hunting, sexism, racism, hate speech, religious/political discussion, or other disruptive behavior.\n1.2. Also applies to voice chats. Disruptive behavior in voice includes voice changers, soundboards, extremely loud noises, etc.\n1.3. Do not impersonate anyone — including admins, mods, or anyone else\n1.4. Do not act as if you are able to carry out staff actions if you're not part of the staff team.\n\n2. No offensive or otherwise inappropriate nicknames or profile pictures\n2.1. This includes blank or invisible names and excessive use of noisy or unusual Unicode characters\n\n3. Don't spam\n3.1. Includes excessive amounts of messages, emojis, capital letters, pings/mentions, etc.\n\n4. NSFW content is NOT allowed\n4.1. NSFW = Not Safe For Work, i.e. porn, gore, suggestive content, etc.\n\n5. English, please\n5.1. Keep all discussion in text channels and general voice channels in English\n\n6. No scam links, URL shorteners, IP grabbers, etc.\n\n7. Listen to the server staff\n7.1. If a moderator tells you to stop doing something, stop it\n7.2. Don't argue about mod decisions in chat. If you'd like to discuss or dispute a decision, please message @Judge .\n\n**In addition to these rules, the moderation team reserves the right to remove messages and users from the server that are detrimental to the discussion and community. Since this is the first page you are seeing, ignorance of the rules does not excuse breaking them.**", colour=discord.Colour.purple())
 	await ctx.reply(embed=em, mention_author=False)
 
 
