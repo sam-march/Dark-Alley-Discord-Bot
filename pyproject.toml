@@ -12,6 +12,7 @@ typing-extensions = "^4.1.1"
 yarl = "^1.7.2"
 aiohttp = "^3.8.1"
 orjson = "^3.6.7"
+Flask = "^2.0.3"
 
 [tool.poetry.dev-dependencies]
 
