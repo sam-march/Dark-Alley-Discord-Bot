@@ -16,7 +16,6 @@ from discord.ext import commands, tasks
 
 token = os.environ['token']
 client = commands.Bot(command_prefix="$", intents=discord.Intents.all())
-client.remove_command("help")
 
 class Player(commands.Cog):
     def __init__(self, bot):
