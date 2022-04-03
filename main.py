@@ -6,11 +6,14 @@ from webserver import keep_alive
 import random
 import asyncio
 import time
+from random import choice
+from discord.ext import commands, tasks
+from music import Player
 
-from discord.ext import commands
+
 
 token = os.environ['token']
-client = commands.Bot(command_prefix="!", intents=discord.Intents.all())
+client = commands.Bot(command_prefix="?", intents=discord.Intents.all())
 client.remove_command("help")
 
 
@@ -85,7 +88,7 @@ async def rules(ctx):
 	await ctx.reply(embed=em, mention_author=False)
 
 @client.command()
-@commands.has_role(911806935072931871)
+@commands.has_role(905700432687538196)
 async def message(ctx, member: discord.Member, *, message):
 	em = discord.Embed(title="Message Sending", description=f"Bot is sending message ... Please Wait", colour=discord.Colour.purple())
 	alert=await ctx.reply(embed=em, mention_author=False)
@@ -120,43 +123,76 @@ async def update(ctx, *, message):
 		
 	
 @client.command()
-#@commands.has_role(911806935072931871)
+@commands.has_role(905700432687538196)
 async def clear_amount(ctx, *, amount=1):
 	amount = amount +2
-	em = discord.Embed(title=f"🗑️ | Purging Message(s)", description=f"Bot purging {amount-2} message(s) ... Please wait", colour=discord.Colour.purple())
-	message=await ctx.reply(embed=em, mention_author=False)
+	
 	try:
 		await ctx.channel.purge(limit=amount)
-		em = discord.Embed(title=f"🗑️ | Purged Message(s)", description=f"Bot purged {amount-2} messages(s) successfully", colour=discord.Colour.purple())
-		await message.edit(embed=em)
-		embed = discord.Embed(title="📨 | Purged Messages", description=f"{ctx.author} just cleared {amount} message(s) in {ctx.channel.mention}", colour=discord.Colour.purple())
+		em = discord.Embed(title="🗑️ | Purged Message(s)", description=f"{ctx.author} just cleared {amount-2} message(s) in {ctx.channel.mention}", colour=discord.Colour.purple())
 		mod_logs = client.get_channel(956218604251144272)
-		await mod_logs.send(embed=embed)
-	except:
-		dev = client.get_user(723569355710922802)
-		em = discord.Embed(title=f"❌ | Purge Messages Failed", description=f"The bot encountered an error when executing this command. This may be due to you, or the bot, not having the correct permissions. Please contact a superior or {dev.mention}", colour=discord.Colour.purple())
-		await message.edit(embed=em)
-
-@client.command()
-#@commands.has_role(911806935072931871)
-async def clear_all(ctx, *, amount=1):
-	amount = amount +2
-	em = discord.Embed(title=f"🗑️ | Purging all messages", description=f"Bot purging all messages ... Please wait", colour=discord.Colour.purple())
-	message=await ctx.reply(embed=em, mention_author=False)
-	try:
-		await ctx.channel.purge()
-		em = discord.Embed(title=f"🗑️ | Purged all messages", description=f"Bot purged all messages", colour=discord.Colour.purple())
-		await message.edit(embed=em)
-		embed = discord.Embed(title="📨 | Purged Messages", description=f"{ctx.author} just cleared all messages in {ctx.channel}", colour=discord.Colour.purple())
-		mod_logs = client.get_channel(956218604251144272)
-		await mod_logs.send(embed=embed)
+		await mod_logs.send(embed=em)
 		
 	except:
 		dev = client.get_user(723569355710922802)
 		em = discord.Embed(title=f"❌ | Purge Messages Failed", description=f"The bot encountered an error when executing this command. This may be due to you, or the bot, not having the correct permissions. Please contact a superior or {dev.mention}", colour=discord.Colour.purple())
-		await message.edit(embed=em)
-	
+		await ctx.send(embed=em)
 
+@client.command()
+@commands.has_role(905700432687538196)
+async def clear_all(ctx):
+
+	try:
+		await ctx.channel.purge()
+		em = discord.Embed(title="📨 | Purged Messages", description=f"{ctx.author} just cleared all messages in {ctx.channel.mention}", colour=discord.Colour.purple())
+		mod_logs = client.get_channel(956218604251144272)
+		await mod_logs.send(embed=em)
+		
+	except:
+		dev = client.get_user(723569355710922802)
+		em = discord.Embed(title=f"❌ | Purge Messages Failed", description=f"The bot encountered an error when executing this command. This may be due to you, or the bot, not having the correct permissions. Please contact a superior or {dev.mention}", colour=discord.Colour.purple())
+		await ctx.send(embed=em)
+
+@client.command()
+@commands.has_role(905700432687538196)
+async def kick(ctx, member: discord.Member, *, reason):
+	try:
+		await member.send(f"> You have been kicked from the Dark Alley server. The reason is listed below:```{reason}```")
+		await member.kick(reason=reason)
+		mod_member = ctx.author
+		em = discord.Embed(title="👟 | User kicked", description=f"{ctx.author.mention} kicked {member.mention} from the server\n\nReason:```{reason}```", colour=discord.Colour.purple())
+		em.set_footer(text="Message Sent: True")
+		mod_logs = client.get_channel(956218604251144272)
+		await mod_logs.send(embed=em)
+	except:
+		await member.kick(reason=reason)
+		mod_member = ctx.author
+		em = discord.Embed(title="👟 | User kicked", description=f"{ctx.author.mention} kicked {member.mention} from the server\n\nReason:```{reason}```", colour=discord.Colour.purple())
+		em.set_footer(text="Message Sent: False")
+		mod_logs = client.get_channel(956218604251144272)
+		await mod_logs.send(embed=em)
+
+@client.command()
+#@commands.has_role(911803484288999424) 
+async def ban(ctx, member: discord.Member, *, reason):
+	try:
+		await member.send(f"> You have been banned from the Dark Alley server. The reason is listed below:```{reason}```")
+		await member.kick(reason=reason)
+		mod_member = ctx.author
+		em = discord.Embed(title="🔨 | User banned", description=f"{ctx.author.mention} banned {member.mention} from the server\n\nReason:```{reason}```", colour=discord.Colour.purple())
+		em.set_footer(text="Message Sent: True")
+		mod_logs = client.get_channel(956218604251144272)
+		await mod_logs.send(embed=em)
+	except:
+		await member.kick(reason=reason)
+		mod_member = ctx.author
+		em = discord.Embed(title="🔨 | User banned", description=f"{ctx.author.mention} banned {member.mention} from the server\n\nReason:```{reason}```", colour=discord.Colour.purple())
+		em.set_footer(text="Message Sent: False")
+		mod_logs = client.get_channel(956218604251144272)
+		await mod_logs.send(embed=em)
+
+
+client.add_cog(Player(client))
 
 keep_alive()
 client.run(token)

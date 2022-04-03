@@ -13,6 +13,8 @@ yarl = "^1.7.2"
 aiohttp = "^3.8.1"
 orjson = "^3.6.7"
 Flask = "^2.0.3"
+pafy = "^0.5.5"
+youtube_dl = "^2021.12.17"
 
 [tool.poetry.dev-dependencies]
 
