@@ -72,7 +72,7 @@ class Player(commands.Cog):
         # handle song where song isn't url
         if not ("youtube.com/watch?" in song or "https://youtu.be/" in song):
             await ctx.send("Searching for song, this may take a few seconds.")
-
+			
             result = await self.search_song(1, song, get_url=True)
 
             if result is None:
@@ -360,7 +360,7 @@ async def kick(ctx, member: discord.Member, *, reason):
 		await mod_logs.send(embed=em)
 
 @client.command()
-#@commands.has_role(911803484288999424) 
+@commands.has_role(911803484288999424) 
 async def ban(ctx, member: discord.Member, *, reason):
 	try:
 		await member.send(f"> You have been banned from the Dark Alley server. The reason is listed below:```{reason}```")
@@ -377,6 +377,27 @@ async def ban(ctx, member: discord.Member, *, reason):
 		em.set_footer(text="Message Sent: False")
 		mod_logs = client.get_channel(956218604251144272)
 		await mod_logs.send(embed=em)
+
+@client.command()
+@commands.has_role(911803484288999424)
+async def unban(ctx, *, member):
+	try:
+	    banned_users = await ctx.guild.bans()
+	    member_name, member_disc = member.split('#')
+	    for banned_entry in banned_users:
+	        user = banned_entry.user
+	        if (user.name, user.discriminator) == (member_name, member_disc):
+	            await ctx.guild.unban(user)
+	            await member.send(
+	                "> You have been unbanned from the Dark Alley Discord Server. You may now send messages and use voice chat!"
+	            )
+	            await ctx.send(member.mention + " has been unbanned")
+	            return
+	    await ctx.send(member.mention + " was not found")
+	except:
+		dev = client.get_user(723569355710922802)
+		em = discord.Embed(title=f"❌ | Unban User Failed", description=f"The bot encountered an error when executing this command. This may be due to you, or the bot, not having the correct permissions. Please contact a superior or {dev.mention}", colour=discord.Colour.purple())
+		await ctx.reply(embed=em)
 
 
 
