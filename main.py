@@ -16,6 +16,8 @@ from discord.ext import commands, tasks
 
 token = os.environ['token']
 client = commands.Bot(command_prefix="$", intents=discord.Intents.all())
+client.remove_command("help")
+
 
 class Player(commands.Cog):
     def __init__(self, bot):
@@ -212,6 +214,18 @@ async def on_ready():
 @client.command()
 async def status(ctx):
     em = discord.Embed(title="Dark Alley Bot is online!", colour=discord.Colour.purple())
+    #em.set_footer(text=f"Time Occured: {curr_time}")
+    await ctx.reply(embed=em, mention_author=False)
+
+@client.command()
+async def help(ctx):
+    em = discord.Embed(title="Help", description="Find the docs at https://github.com/sam-march/Dark-Alley-Discord-Bot/wiki\nIf you find a bug with this bot, please create an error on the GitHub Repository (https://github.com/sam-march/Dark-Alley-Discord-Bot/issues)", colour=discord.Colour.purple())
+    #em.set_footer(text=f"Time Occured: {curr_time}")
+    await ctx.reply(embed=em, mention_author=False)
+
+@client.command()
+async def docs(ctx):
+    em = discord.Embed(title="Docs", description="Find the docs at https://github.com/sam-march/Dark-Alley-Discord-Bot/wiki\nIf you find a bug with this bot, please create an error on the GitHub Repository (https://github.com/sam-march/Dark-Alley-Discord-Bot/issues)", colour=discord.Colour.purple())
     #em.set_footer(text=f"Time Occured: {curr_time}")
     await ctx.reply(embed=em, mention_author=False)
 
