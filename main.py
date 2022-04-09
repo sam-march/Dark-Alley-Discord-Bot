@@ -8,6 +8,7 @@ import asyncio
 import time
 import youtube_dl
 import pafy
+import ffmpeg
 from random import choice
 from discord.ext import commands, tasks
 

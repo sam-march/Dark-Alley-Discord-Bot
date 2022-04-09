@@ -15,6 +15,7 @@ orjson = "^3.6.7"
 Flask = "^2.0.3"
 youtube_dl = "^2021.12.17"
 pafy = "^0.5.5"
+ffmpeg = "^1.4"
 
 [tool.poetry.dev-dependencies]
 
